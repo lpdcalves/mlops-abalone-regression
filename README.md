@@ -1,12 +1,13 @@
-# MLOps CNN Image Classification
+# MLOps Regression using Abalone's Shell Data
 
 ## Introduction
 
-This is a simple project that aims to built image classification with the MLOps best practices for training and deployment of models in production.
+This project aims to build an MLOps pipeline capable of training and deploying a regression model that determines an Abalone's age based on its characteristics.
+An Abalone is a shelled marine mollusc, consumed as food by a variety of cultures around the world.
 
 ## About the dataset
 
-The dataset is a collection of Natural Scenes around the world and is available at kaggle [Intel Image Classification](https://www.kaggle.com/puneet6060/intel-image-classification).
+The dataset is a collection of measurements from Abalone specimens and is available at kaggle [Intel Image Classification](https://www.kaggle.com/rodolfomendes/abalone-dataset).
 This database contains around 25k images of size 150x150 distributed under 6 categories.
 
 ```json
