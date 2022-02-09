@@ -1,5 +1,9 @@
 # MLOps Regression using Abalone's Shell Data
 
+| ![abalone.jpg](./imgs/abalone.jpg) | 
+|:--:| 
+| *Abalone* |
+
 ## Introduction
 
 This project aims to build an MLOps pipeline capable of training and deploying a regression model that determines an Abalone's age based on its characteristics.
