@@ -7,18 +7,19 @@ An Abalone is a shelled marine mollusc, consumed as food by a variety of culture
 
 ## About the dataset
 
-The dataset is a collection of measurements from Abalone specimens and is available at kaggle [Intel Image Classification](https://www.kaggle.com/rodolfomendes/abalone-dataset).
-This database contains around 25k images of size 150x150 distributed under 6 categories.
+The dataset is a collection of measurements from Abalone specimens and is available at kaggle: [Abalone Dataset](https://www.kaggle.com/rodolfomendes/abalone-dataset).
+Precisely determining the age of an Abalone specimen is a difficult and time consuming task, so being able to estimate it using machine learning methods is a desireable solution. Therefore, this dataset contains a little over 4000 entries with the length, height, weight etc of the Abalone. Below there is an extensive list of parameters from the dataset.
 
-```json
-{
-    'buildings' -> 0,
-    'forest' -> 1,
-    'glacier' -> 2,
-    'mountain' -> 3,
-    'sea' -> 4,
-    'street' -> 5
-}
+```yml
+    - sex
+    - length
+    - diameter
+    - height
+    - whole weight
+    - shucked weight
+    - viscera weight
+    - shell weight
+    - rings
 ```
 
 ## About the model
