@@ -1,6 +1,6 @@
 # MLOps Regression using Abalone's Shell Data
 
-| ![abalone.jpg](./imgs/abalone.jpg) | 
+| <img src="./imgs/abalone.jpg" alt="abalone_img" width=300> | 
 |:--:| 
 | *Abalone* |
 
