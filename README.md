@@ -24,7 +24,7 @@ Precisely determining the age of an Abalone specimen is a difficult and time con
 
 ## About the model
 
-The model is a convolutional neural network [...]
+The model is a regression [...]
 
 ## About the training
 
@@ -45,7 +45,7 @@ The deployment is done in two steps: [...]
 To get started, clone the repository and run the following command:
 
 ```bash
-git clone https://github.com/lpdcalves/mlops-cnn-image-classification.git
+git clone https://github.com/lpdcalves/mlops-abalone-regression.git
 ```
 
 And then run the following command:
