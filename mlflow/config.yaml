@@ -1,0 +1,6 @@
+main:
+  project_name: abalone-regression
+  experiment_name: dev
+data:
+  file_url: https://www.kaggle.com/rodolfomendes/abalone-dataset
+

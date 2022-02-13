@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/d/UFRN/Mat%C3%A9rias/Semestre%2010/MLOPS/mlops-abalone-regression/mlflow/mlruns/0/e7680434912d4036841c313f0c0f7738/artifacts
+end_time: 1644778698163
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: e7680434912d4036841c313f0c0f7738
+run_uuid: e7680434912d4036841c313f0c0f7738
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1644778667508
+status: 3
+tags: []
+user_id: root
