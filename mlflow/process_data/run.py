@@ -7,8 +7,7 @@ import logging
 import seaborn as sns
 import pandas as pd
 import wandb
-
-from sklearn.manifold import TSNE
+from pandas_profiling import ProfileReport
 
 # configure logging
 logging.basicConfig(level=logging.INFO,
@@ -27,8 +26,7 @@ def process_args(args):
     artifact_path = artifact.file()
 
     abalone = pd.read_csv(
-        artifact_path,
-        skiprows=1
+        artifact_path
     )
 
     # iris = pd.read_csv(
@@ -37,20 +35,19 @@ def process_args(args):
     #     names=("sepal_length", "sepal_width", "petal_length", "petal_width", "target"),
     # )
 
-    # target_names = "setosa,versicolor,virginica".split(",")
-    # iris["target"] = [target_names[k] for k in iris["target"]]
+    profile = ProfileReport(abalone, title="Pandas Profiling Report", explorative=True)
+    profile.to_file("abalone_profile.html")
 
-    # logger.info("Performing t-SNE")
-    # tsne = TSNE(n_components=2, init="pca", random_state=0)
-    # transf = tsne.fit_transform(iris.iloc[:, :4])
+    # logger.info("Creating profile artifact")
 
-    # iris["tsne_1"] = transf[:, 0]
-    # iris["tsne_2"] = transf[:, 1]
-
-    # g = sns.displot(iris, x="tsne_1", y="tsne_2", hue="target", kind="kde")
-
-    # logger.info("Uploading image to W&B")
-    # run.log({"t-SNE": wandb.Image(g.fig)})
+    # profile_artifact = wandb.Artifact(
+    #     name="abalone_profile.html",
+    #     type=process_data,
+    #     description="Abalone dataset auto profiling done by PandasProfiling",
+    # )
+    # profile_artifact.add_file("abalone_profile.html")
+    # logger.info("Logging profile artifact")
+    # run.log_artifact(profile_artifact)
 
     logger.info("Creating artifact")
 
