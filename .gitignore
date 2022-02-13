@@ -1,3 +1,7 @@
 .ipynb_checkpoints
-**/mlruns/*
-**/mlflow/outputs/*
+.log
+artifacts/
+wandb/
+mlruns/
+outputs/
+*wandb/
