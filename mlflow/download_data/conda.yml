@@ -4,7 +4,8 @@ channels:
   - defaults
 dependencies:
   - requests=2.24.0
+  - wandb=0.12.7
+  - python=3.8
   - pip=20.3.3
   - pip:
-      - wandb==0.12.7
       - opendatasets
