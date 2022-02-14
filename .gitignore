@@ -4,6 +4,7 @@ artifacts/
 wandb/
 mlruns/
 outputs/
+**/artifacts
 **/wandb
 **/mlruns
 **/outputs
