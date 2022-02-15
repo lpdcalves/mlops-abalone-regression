@@ -27,7 +27,7 @@ def process_args(config: DictConfig):
             "artifact_name": "abalone.csv",
             "artifact_type": "raw_data",
             "artifact_description": "Input data"
-        },
+        }
     )
 
     _ = mlflow.run(
@@ -38,7 +38,20 @@ def process_args(config: DictConfig):
             "artifact_name": "clean_data.csv",
             "artifact_type": "processed_data",
             "artifact_description": "Cleaned data"
-        },
+        }
+    )
+
+    _ = mlflow.run(
+        os.path.join(root_path, "segregate_data"),
+        "main",
+        parameters={
+            "input_artifact": "clean_data.csv:latest",
+            "artifact_root": "data",
+            "artifact_type": "segregated_data",
+            "test_size": config["data"]["test_size"],
+            "stratify": config["data"]["stratify"],
+            "random_state": config["main"]["random_seed"]
+        }
     )
 
 if __name__ == "__main__":
