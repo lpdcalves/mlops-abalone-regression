@@ -9,6 +9,7 @@ import tempfile
 import pandas as pd
 import wandb
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 # configure logging
 logging.basicConfig(level=logging.INFO,
@@ -42,11 +43,10 @@ def process_args(args):
     splits = {}
 
     splits["train"], splits["test"] = train_test_split(
-        clean_abalone.drop('Age', axis=1),
-        clean_abalone["Age"],
+        clean_abalone,
         test_size=args.test_size,
         random_state=args.random_state,
-        stratify=clean_abalone[args.stratify] if args.stratify != 'null' else None
+        #stratify=clean_abalone[args.stratify] if args.stratify != 'null' else None
     )
 
     # Save the artifacts. We use a temporary directory so we do not leave
