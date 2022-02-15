@@ -1,0 +1,10 @@
+name: segregate-data
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip=20.3.3
+  - pandas=1.2.3
+  - scikit-learn=0.24.1
+  - pip:
+    - wandb==0.12.7
