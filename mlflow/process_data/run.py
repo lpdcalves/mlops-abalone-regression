@@ -4,8 +4,9 @@ Date: 13 Feb. 2022
 """
 import argparse
 import logging
-import seaborn as sns
+import tempfile
 import pandas as pd
+import numpy as np
 import wandb
 from pandas_profiling import ProfileReport
 
@@ -17,51 +18,57 @@ logging.basicConfig(level=logging.INFO,
 # reference for a logging obj
 logger = logging.getLogger()
 
-def process_args(args):
 
+def process_args(args):
     run = wandb.init(job_type="process_data")
 
     logger.info("Downloading artifact")
     artifact = run.use_artifact(args.input_artifact)
     artifact_path = artifact.file()
 
-    abalone = pd.read_csv(
-        artifact_path
-    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        abalone = pd.read_csv(artifact_path)
 
-    # iris = pd.read_csv(
-    #     artifact_path,
-    #     skiprows=1,
-    #     names=("sepal_length", "sepal_width", "petal_length", "petal_width", "target"),
-    # )
 
-    profile = ProfileReport(abalone, title="Pandas Profiling Report", explorative=True)
-    profile.to_file("abalone_profile.html")
+        logger.info("Creating artifact")
 
-    # logger.info("Creating profile artifact")
+        # proper data pre-processing
+        abalone['Age'] = abalone['Rings'].apply(lambda x: x + 1.5)
+        abalone.drop('Rings', axis=1, inplace=True)
 
-    # profile_artifact = wandb.Artifact(
-    #     name="abalone_profile.html",
-    #     type=process_data,
-    #     description="Abalone dataset auto profiling done by PandasProfiling",
-    # )
-    # profile_artifact.add_file("abalone_profile.html")
-    # logger.info("Logging profile artifact")
-    # run.log_artifact(profile_artifact)
+        abalone = abalone[abalone['Height'] != 0]  # need to drop these rows.
 
-    logger.info("Creating artifact")
+        corr = abalone.corr()
+        upper_tri = corr.where(np.triu(np.ones(corr.shape), k=1).astype(bool))
+        columns_to_drop = [column for column in upper_tri.columns if any(
+            upper_tri[column] > 0.95)]
 
-    abalone.to_csv("clean_data.csv")
+        abalone.drop(columns_to_drop, axis=1, inplace=True)
 
-    artifact = wandb.Artifact(
-        name=args.artifact_name,
-        type=args.artifact_type,
-        description=args.artifact_description,
-    )
-    artifact.add_file("clean_data.csv")
+        abalone['Height'] = np.sqrt(abalone.loc[:, 'Height'])
+        abalone['Length'] = np.sqrt(abalone.loc[:, 'Length'])
 
-    logger.info("Logging artifact")
-    run.log_artifact(artifact)
+        abalone = pd.get_dummies(abalone, columns=['Sex'], prefix_sep='_')
+
+        # data visualization for the dataframe with pandas
+        profile = ProfileReport(
+            abalone, title="Pandas Profiling Report", explorative=True)
+        profile.to_file("abalone_profile.html")
+
+        # memory persistence on the artifact
+        abalone.to_csv("clean_data.csv")
+
+        artifact = wandb.Artifact(
+            name=args.artifact_name,
+            type=args.artifact_type,
+            description=args.artifact_description,
+        )
+        artifact.add_file("clean_data.csv")
+
+        logger.info("Logging artifact")
+        run.log_artifact(artifact)
+
+        artifact.wait()
 
 
 if __name__ == "__main__":
@@ -95,4 +102,3 @@ if __name__ == "__main__":
     ARGS = parser.parse_args()
 
     process_args(ARGS)
-
