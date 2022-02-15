@@ -2,6 +2,7 @@
 Creators: Luiz Paulo de C. Alves, Jonatas Rodolfo Pereira dos Santos, Ariel da Silva Alsina
 Date: 13 Feb. 2022
 """
+import os
 import argparse
 import logging
 import tempfile
@@ -57,7 +58,7 @@ def process_args(args):
 
         # memory persistence on the artifact
         abalone.to_csv("clean_data.csv")
-
+        
         artifact = wandb.Artifact(
             name=args.artifact_name,
             type=args.artifact_type,
@@ -69,6 +70,10 @@ def process_args(args):
         run.log_artifact(artifact)
 
         artifact.wait()
+
+        logger.info("Deleting 'clean_data.csv'")
+        os.remove("clean_data.csv")
+        
 
 
 if __name__ == "__main__":
