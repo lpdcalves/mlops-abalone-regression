@@ -54,7 +54,7 @@ def process_args(args):
         # data visualization for the dataframe with pandas
         profile = ProfileReport(
             abalone, title="Pandas Profiling Report", explorative=True)
-        profile.to_file("abalone_profile.html")
+        # profile.to_file("abalone_profile.html")
 
         # memory persistence on the artifact
         abalone.to_csv("clean_data.csv")

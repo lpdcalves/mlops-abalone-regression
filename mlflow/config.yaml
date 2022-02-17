@@ -6,3 +6,4 @@ data:
   file_url: https://www.kaggle.com/rodolfomendes/abalone-dataset
   test_size: 0.2
   stratify: Age
+  val_size: 0.3

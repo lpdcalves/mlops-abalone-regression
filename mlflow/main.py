@@ -54,5 +54,17 @@ def process_args(config: DictConfig):
         }
     )
 
+    _ = mlflow.run(
+        os.path.join(root_path, "model_training"),
+        "main",
+        parameters={
+            "train_data": "train_data.csv:latest",
+            "export_artifact": "trained_model",
+            "random_seed": config["main"]["random_seed"],
+            "val_size": config["data"]["val_size"],
+            "stratify": config["data"]["stratify"]
+        }
+    )
+
 if __name__ == "__main__":
     process_args()
