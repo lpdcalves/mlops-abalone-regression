@@ -1,9 +1,3 @@
-"""
-Creator: Ivanovitch Silva
-Date: 30 Jan. 2022
-Implement a machine pipeline component that
-incorporate preprocessing and train stages.
-"""
 import argparse
 import logging
 import os
@@ -42,31 +36,32 @@ def process_args(args):
     df_train = pd.read_csv(local_path)
 
     # Spliting train.csv into train and validation dataset
-    logger.info("Spliting data into train/val")
+    logger.info("Spliting data into train/test")
     # split-out train/validation and test dataset
-    x_train, x_test, y_train, y_test = train_test_split(df_train.drop(labels=args.stratify,axis=1),
-                                                      df_train[args.stratify],
-                                                      test_size=args.val_size,
-                                                      random_state=args.random_seed,
-                                                      shuffle=True)
+    x_train, x_test, y_train, y_test = train_test_split(
+        df_train.drop(labels=args.stratify,axis=1),
+        df_train[args.stratify],
+        test_size=args.val_size,
+        random_state=args.random_seed,
+        shuffle=True)
     
     logger.info("x train: {}".format(x_train.shape))
     logger.info("y train: {}".format(y_train.shape))
     logger.info("x val: {}".format(x_test.shape))
     logger.info("y val: {}".format(y_test.shape))
 
-    sc = StandardScaler()
-    sc.fit(x_train)
+    # sc = StandardScaler()
+    # sc.fit(x_train)
 
-    X_train_std = sc.transform(x_train)
-    X_test_std = sc.transform(x_test)
-    X_train_std = pd.DataFrame(X_train_std, columns=x_train.columns)
-    X_test_std = pd.DataFrame(X_test_std, columns=x_train.columns)
+    # X_train_std = sc.transform(x_train)
+    # X_test_std = sc.transform(x_test)
+    # X_train_std = pd.DataFrame(X_train_std, columns=x_train.columns)
+    # X_test_std = pd.DataFrame(X_test_std, columns=x_train.columns)
 
-    X_train = X_train_std.values
-    X_test = X_test_std.values
-    y_train = y_train.values
-    y_test = y_test.values
+    # X_train = X_train_std.values
+    # X_test = X_test_std.values
+    # y_train = y_train.values
+    # y_test = y_test.values
 
     # logger.info("Removal Outliers")
     # # temporary variable
@@ -108,7 +103,9 @@ def process_args(args):
     # wandb.config.update(model_config)
     
     # The full pipeline 
-    pipe = Pipeline([("Regressor", GradientBoostingRegressor(learning_rate=0.01, max_depth=4, min_samples_split=15, n_estimators=500))])
+    pipe = Pipeline(steps=[
+        ('standardscaler', StandardScaler()),
+        ("gradientBoostingRegressor", GradientBoostingRegressor(learning_rate=0.01, max_depth=4, min_samples_split=15, n_estimators=500))])
 
     # training 
     logger.info("Training")
@@ -149,7 +146,7 @@ def export_model(run, pipe, x_val, val_pred, export_artifact):
         artifact = wandb.Artifact(
             export_artifact,
             type="model_export",
-            description="Decision Tree pipeline export",
+            description="Gradient Boosting Regressor pipeline export",
         )
         
         # NOTE that we use .add_dir and not .add_file
