@@ -42,6 +42,16 @@ def process_args(config: DictConfig):
     )
 
     _ = mlflow.run(
+            os.path.join(root_path, "check_data"),
+            "main",
+            parameters={
+                "reference_artifact": "clean_data.csv:latest",
+                "sample_artifact": "clean_data.csv:latest",
+                "ks_alpha": config["data"]["ks_alpha"]
+            }
+        )
+
+    _ = mlflow.run(
         os.path.join(root_path, "segregate_data"),
         "main",
         parameters={

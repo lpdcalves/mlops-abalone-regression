@@ -9,3 +9,5 @@ outputs/
 **/wandb
 **/mlruns
 **/outputs
+__pycache__
+.pytest_cache
