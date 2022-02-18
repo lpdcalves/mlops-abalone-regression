@@ -53,3 +53,14 @@ git clone https://github.com/lpdcalves/mlops-abalone-regression.git
 ```
 
 And then run the following command:
+
+```bash
+conda env create -f environment.yml
+```
+
+After that, all you need to do is run the pipeline:
+
+```bash
+cd mlflow
+mlflow run .
+```
